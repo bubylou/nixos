@@ -40,6 +40,10 @@
       unzip
       xclip
     ];
+    programs.ghostty = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     programs.zsh = {
       enable = true;
       dotDir = ".config/zsh";

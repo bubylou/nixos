@@ -105,7 +105,6 @@
     discord
     easyeffects
     firefox
-    ghostty
     gimp
     gnome-tweaks
     gnomeExtensions.appindicator

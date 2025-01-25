@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 {
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   imports =
     [
       <home-manager/nixos>
@@ -10,9 +13,13 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/nvme0n1";
-  boot.loader.grub.useOSProber = true;
+  boot.loader = {
+    grub = {
+      enable = true;
+      useOSProber = true;
+      device = "/dev/nvme0n1";
+    };
+  };
 
   networking.hostName = "gaming-pc";
   networking.networkmanager.enable = true;
@@ -44,6 +51,19 @@
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+    loadModels = [
+      "codellama:7b"
+      "codellama:13b"
+      "deepseek-r1:7b"
+      "deepseek-r1:8b"
+      "starcoder2:3b"
+      "starcoder2:7b"
+    ];
   };
 
   environment.gnome.excludePackages = (with pkgs; [
@@ -89,13 +109,11 @@
 
   virtualisation.docker.enable = true;
   
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   environment.systemPackages = with pkgs; [
     alacritty
     anydesk
     brave
+    bws
     (catppuccin-gtk.override {
       accents = [ "blue" ];
       size = "compact";

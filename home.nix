@@ -31,6 +31,8 @@
       (nerdfonts.override { fonts = [ "Mononoki"]; })
       nodejs
       opentofu
+      podman
+      podman-compose
       poetry
       python3
       ripgrep

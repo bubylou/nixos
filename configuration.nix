@@ -92,7 +92,14 @@
     options = [ "x-systemd.automount" "noauto" ];
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
   
   environment.systemPackages = with pkgs; [
     alacritty

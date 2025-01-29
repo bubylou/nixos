@@ -42,27 +42,12 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-
   services.ollama = {
     enable = true;
     acceleration = "cuda";
     loadModels = [
-      "codellama:7b"
-      "codellama:13b"
       "deepseek-r1:7b"
       "deepseek-r1:8b"
-      "starcoder2:3b"
-      "starcoder2:7b"
     ];
   };
 

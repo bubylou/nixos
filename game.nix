@@ -20,11 +20,6 @@
     wine
   ];
 
-  programs.coolercontrol = {
-    enable = true;
-    nvidiaSupport = true;
-  };
-
   programs.gamemode.enable = true;
 
   programs.steam = {

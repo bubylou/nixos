@@ -86,10 +86,6 @@
           full_symbol = "🔋 ";
           charging_symbol = "⚡️ ";
           discharging_symbol = "💀 ";
-          display = {
-            threshold = 100;
-            style = "bold red";
-          };
         };
         kubernetes = {
           disabled = false;

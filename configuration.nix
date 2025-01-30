@@ -5,6 +5,7 @@
 
   imports =
     [
+      <catppuccin/modules/nixos>
       <home-manager/nixos>
       ./game.nix
       ./hardware-configuration.nix
@@ -85,6 +86,11 @@
 
   programs.zsh.enable = true;
   services.tailscale.enable = true;
+
+  catppuccin = {
+    enable = true;
+    accent = "mocha";
+  };
 
   fileSystems."/mnt/share" = {
     device = "nas01.bubylou.com:/srv/share";

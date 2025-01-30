@@ -13,16 +13,20 @@
       ./yubikey-gpg.nix
     ];
 
-  # Bootloader.
-  boot.loader = {
-    grub = {
-      enable = true;
-      useOSProber = true;
-      device = "/dev/nvme0n1";
-    };
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/nvme0n1";
+    useOSProber = true;
   };
 
-  networking.hostName = "gaming-pc";
+  boot.initrd.secrets = {
+    "/boot/crypto_keyfile.bin" = null;
+  };
+
+  boot.loader.grub.enableCryptodisk = true;
+  boot.initrd.luks.devices."luks-024c526c-d7eb-46f0-8c1e-20a482e93022".keyFile = "/boot/crypto_keyfile.bin";
+
+  networking.hostName = "xps13-9370";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/New_York";
@@ -42,15 +46,6 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
-  services.ollama = {
-    enable = true;
-    acceleration = "cuda";
-    loadModels = [
-      "deepseek-r1:7b"
-      "deepseek-r1:8b"
-    ];
-  };
 
   environment.gnome.excludePackages = (with pkgs; [
     gnome-tour
@@ -84,6 +79,15 @@
     shell = pkgs.zsh;
   };
 
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "buby";
+
+  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
+
+  programs.firefox.enable = true;
+  programs.gamemode.enable = true;
   programs.zsh.enable = true;
   services.tailscale.enable = true;
 
@@ -93,7 +97,7 @@
   };
 
   fileSystems."/mnt/share" = {
-    device = "nas01.bubylou.com:/srv/share";
+    device = "nas01:/srv/share";
     fsType = "nfs";
     options = [ "x-systemd.automount" "noauto" ];
   };
@@ -146,5 +150,5 @@
       };
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

@@ -3,6 +3,12 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   imports =
     [
       <catppuccin/modules/nixos>
@@ -13,13 +19,10 @@
       ./yubikey-gpg.nix
     ];
 
-  # Bootloader.
-  boot.loader = {
-    grub = {
-      enable = true;
-      useOSProber = true;
-      device = "/dev/nvme0n1";
-    };
+  boot.loader.grub = {
+    enable = true;
+    useOSProber = true;
+    device = "/dev/nvme0n1";
   };
 
   networking.hostName = "gaming-pc";
@@ -47,7 +50,6 @@
     enable = true;
     acceleration = "cuda";
     loadModels = [
-      "deepseek-r1:7b"
       "deepseek-r1:8b"
     ];
   };
@@ -112,6 +114,7 @@
     anydesk
     brave
     bws
+    calibre
     (catppuccin-gtk.override {
       accents = [ "blue" ];
       size = "compact";
@@ -121,6 +124,7 @@
     discord
     easyeffects
     firefox
+    foliate
     gimp
     gnome-tweaks
     gnomeExtensions.appindicator

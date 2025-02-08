@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 {
+  home-manager.backupFileExtension = "uwu";
   home-manager.users.buby = { pkgs, ... }: {
     home.username = "buby";
     home.homeDirectory = "/home/buby";
@@ -7,25 +8,33 @@
     home.packages = with pkgs; [
       act
       ansible
+      apko
       bat
+      bazel
       bottom
+      buildah
       dig
+      dive
       doctl
+      earthly
       eza
       fluxcd
       gcc
       gh
       gnumake
       go
+      go-task
       helmfile
       httpie
       jq
+      just
       kind
       kubectl
       kubernetes-helm
       kubeseal
       lazygit
       lf
+      mage
       ncdu
       neovim
       (nerdfonts.override { fonts = [ "Mononoki"]; })
@@ -41,6 +50,7 @@
       unrar-free
       unzip
       xclip
+      zellij
     ];
     programs.ghostty = {
       enable = true;
@@ -91,6 +101,13 @@
           disabled = false;
           format = "on [⛵ $context ](dimmed green)";
         };
+      };
+    };
+    programs.zellij = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = {
+        theme = "catppuccin-mocha";
       };
     };
     programs.zoxide = {

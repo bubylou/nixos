@@ -83,7 +83,7 @@
     isNormalUser = true;
     description = "Nicholas Malcolm";
     extraGroups = [ "docker" "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
+    shell = pkgs.nushell;
   };
 
   programs.zsh.enable = true;

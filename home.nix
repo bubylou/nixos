@@ -13,6 +13,7 @@
       bazel
       bottom
       buildah
+      carapace
       dig
       dive
       doctl
@@ -26,7 +27,6 @@
       go-task
       helmfile
       httpie
-      jq
       just
       kind
       kubectl
@@ -50,34 +50,38 @@
       unrar-free
       unzip
       xclip
-      zellij
+      yq
+      zsh
     ];
-    programs.ghostty = {
+    programs.carapace = {
       enable = true;
+      enableNushellIntegration = true;
       enableZshIntegration = true;
     };
-    programs.zsh = {
+    programs.ghostty = {
       enable = true;
-      dotDir = ".config/zsh";
-      autocd = true;
-      autosuggestion.enable = true;
-      enableCompletion = true;
-      syntaxHighlighting.enable = true; 
-      initExtra = ''
-        export BWS_ACCESS_TOKEN=$(cat /etc/nixos/secret.txt)
-        export DEEPSEEK_API_KEY=$(bws secret get 99c8e59c-2cc6-4c85-8cbd-b26c0154596c | jq -r .value)
-        export GITHUB_TOKEN=$(gh auth token)
-        export OPENAI_API_KEY=$(bws secret get dd7e1193-b1bc-4ab5-a58e-b26100ed26ab | jq -r .value)
-      '';
-      oh-my-zsh = {
-        enable = true;
-        plugins = [ "docker" "docker-compose" "doctl" "git" "helm" "httpie" "kubectl" ];
-        theme = "robbyrussell";
+    };
+    programs.nushell = {
+      enable = true;
+      envFile = {
+        text = ''
+          let BWS_ACCESS_TOKEN = "$(cat /etc/nixos/secret.txt)"
+          let DEEPSEEK_API_KEY = "$(bws secret get 99c8e59c-2cc6-4c85-8cbd-b26c0154596c | yq -r .value)"
+          let GITHUB_TOKEN = "$(gh auth token)"
+          let OPENAI_API_KEY = "$(bws secret get dd7e1193-b1bc-4ab5-a58e-b26100ed26ab | yq -r .value)"
+        '';
+      };
+      configFile = {
+        text = ''
+          $env.config.buffer_editor = "nvim";
+          $env.config.show_banner = false;
+          $env.config.completions.external.enable = true
+        '';
       };
     };
     programs.eza = {
       enable = true;
-      enableZshIntegration = true;
+      enableNushellIntegration = true;
     };
     programs.git = {
       enable = true;
@@ -90,29 +94,17 @@
     };
     programs.starship = {
       enable = true;
-      enableZshIntegration = true;
+      enableNushellIntegration = true;
       settings = {
-        battery = {
-          full_symbol = "🔋 ";
-          charging_symbol = "⚡️ ";
-          discharging_symbol = "💀 ";
-        };
         kubernetes = {
           disabled = false;
           format = "on [⛵ $context ](dimmed green)";
         };
       };
     };
-    programs.zellij = {
-      enable = true;
-      enableZshIntegration = true;
-      settings = {
-        theme = "catppuccin-mocha";
-      };
-    };
     programs.zoxide = {
       enable = true;
-      enableZshIntegration = true;
+      enableNushellIntegration = true;
     };
   };
 }

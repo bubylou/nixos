@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 {
+  # dotnet/mono for Vintage Story
+  nixpkgs.config.permittedInsecurePackages = [ "dotnet-sdk-7.0.410" ];
+  environment.sessionVariables = { DOTNET_ROOT = "${pkgs.dotnet-sdk_7}/share/dotnet"; };
+
   environment.systemPackages = with pkgs; [
     coolercontrol.coolercontrol-gui
     heroic
@@ -30,5 +34,4 @@
       proton-ge-bin
     ];
   };
-
 }

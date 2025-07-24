@@ -3,7 +3,8 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
+    ./modules/desktop.nix
+    ./modules/users.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -21,26 +22,6 @@
   networking = {
     hostName = "stealth16ai";
     networkmanager.enable = true;
-  };
-
-  time.timeZone = "America/New_York";
-
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  users.users.buby = {
-    isNormalUser = true;
-    description = "Nicholas Malcolm";
-    extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      neovim
-    ];
   };
 
   environment.systemPackages = with pkgs; [

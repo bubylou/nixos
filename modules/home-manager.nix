@@ -1,6 +1,18 @@
 { pkgs, ... }:
 
 {
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "blue";
+
+    cursors.enable = true;
+    gtk = {
+      enable = true;
+      icon.enable = true;
+    };
+  };
+
   home.stateVersion = "25.05";
   home.packages = with pkgs; [
     ansible

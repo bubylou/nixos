@@ -24,7 +24,11 @@
   networking = {
     hostName = "stealth16ai";
     networkmanager.enable = true;
+    nameservers = [ "192.168.1.12" "1.1.1.1" ];
   };
+
+  services.syncthing.enable = true;
+  services.tailscale.enable = true;
 
   environment.systemPackages = with pkgs; [
     curl
